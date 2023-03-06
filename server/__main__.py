@@ -1,20 +1,20 @@
 import flask
 import flask_caching
 import json
+from os import environ
 import time
 from typing import Any, Dict
 
 import client
 
-# uh oh! global variable!
 app = flask.Flask(__name__)
 flask_cache = flask_caching.Cache()
 
 def main() -> None:
-    with open('secrets.json', 'r') as file:
-        config = json.load(file)
+    client_id = environ.get('CLIENT_ID')
+    client_secret = environ.get('CLIENT_SECRET')
 
-    spotify_client = client.get_spotify_client(config['client_id'], config['client_secret'])
+    spotify_client = client.get_spotify_client(client_id, client_secret)
     assert not spotify_client is None
 
     flask_cache.init_app(app, { 'CACHE_TYPE': 'SimpleCache' })
@@ -29,9 +29,13 @@ def artist_top_tracks(name: str) -> Dict[str, str]:
     result = spotify_client.artist_top_tracks(name)
 
     if result is None:
-        return { 'result': 'error' }
+        return flask.jsonify({ 'result': 'error' })
     else:
-        return result
+        return app.response_class(
+            response=result,
+            status=200,
+            mimetype='application/json'
+        )
 
 if __name__ == '__main__':
     main()

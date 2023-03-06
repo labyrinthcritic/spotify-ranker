@@ -20,4 +20,5 @@ To run the dev server:
 The build results will be in `dist/`.
 
 ### Backend
-The backend is a python module. Ensure that `secrets.json` is present in the root and run `python server`.
+The backend is a python module. Ensure that the `CLIENT_ID` and `CLIENT_SECRET`
+environment variables are set properly and run `python server`.
