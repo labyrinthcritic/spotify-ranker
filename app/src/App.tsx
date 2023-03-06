@@ -2,7 +2,7 @@ import './App.css'
 
 function App() {
   return (
-    <p>Spotify Ranker</p>
+    <p className="w-screen h-screen bg-black">Spotify Ranker</p>
   )
 }
 
