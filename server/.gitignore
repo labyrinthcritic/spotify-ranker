@@ -4,5 +4,3 @@ __pycache__/
 *$py.class
 
 .mypy_cache/
-
-secrets.json
