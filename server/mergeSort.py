@@ -8,7 +8,7 @@ def Merge(item, left, mid, right):
 
     # creating two array to store left and right half 
     for i in range(0, n1):
-        itemOne[i] = item[left + 1]
+        itemOne[i] = item[left + i]
 
     for j in range(0, n2):
         itemTwo[j] = item[mid + 1 + j]
@@ -47,7 +47,7 @@ def Merge(item, left, mid, right):
 
 def MergeSort(item, left, right):
     if (left < right):
-        # diving the item (// to return whole number)-----------------------------------> right here 
+        # diving the item (// to return whole number)
         mid = left + (right - left) // 2
         MergeSort(item, left, mid)
         MergeSort(item, mid + 1, right)
@@ -56,7 +56,7 @@ def MergeSort(item, left, right):
         Merge(item, left, mid, right)
 
 
-
+"""
 # test code 1 
 item = [15, 2, 7, 0]
 
@@ -70,3 +70,5 @@ MergeSort(item, 0, size - 1)
 print ("\nArray after sorting: ")
 for i in range(size):
     print(item[i]),
+ 
+"""
