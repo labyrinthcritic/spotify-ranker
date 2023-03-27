@@ -76,22 +76,3 @@ def functional_merge_sort(items):
         right = items[:mid]
 
         return merge(merge_sort(left), merge_sort(right))
-
-
-
-"""
-# test code 1 
-item = [15, 2, 7, 0]
-
-size = len(item)
-print ("Array before sorting: ")
-for i in range(size):
-    print(item[i]),
-
-merge_sort(item, 0, size - 1)
-
-print ("\nArray after sorting: ")
-for i in range(size):
-    print(item[i]),
- 
-"""
