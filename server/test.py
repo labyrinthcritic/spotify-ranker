@@ -3,12 +3,12 @@ import random
 from shell_sort import shell_sort
 from merge_sort import merge_sort
 
-def run_all_tests():
+def run_all_tests() -> None:
     tests = [test_shell_sort_one, test_shell_sort_two, test_merge_sort]
     for test in tests:
         test()
 
-def test_shell_sort_one():
+def test_shell_sort_one() -> None:
     list = [12, 34, 54, 2, 3]
     
     size = len(list)
@@ -22,7 +22,7 @@ def test_shell_sort_one():
     for i in range(size):
         print(list[i]),
 
-def test_shell_sort_two():
+def test_shell_sort_two() -> None:
     randomList = []
     n = 100 
     for i in range(n): 
@@ -38,7 +38,7 @@ def test_shell_sort_two():
     for i in range(n):
         print(randomList[i])
 
-def test_merge_sort():
+def test_merge_sort() -> None:
     item = [15, 2, 7, 0]
     
     size = len(item)

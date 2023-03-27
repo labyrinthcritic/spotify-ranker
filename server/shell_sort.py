@@ -1,4 +1,8 @@
-def shell_sort(items):
+from typing import List, TypeVar
+
+T = TypeVar('T', int, float)
+
+def shell_sort(items: List[T]):
     # initial value of the gap n / 2 
     size = len(items)
     gap = int(size / 2)

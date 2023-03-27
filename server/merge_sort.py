@@ -1,5 +1,8 @@
-# code from Module 6 Sorting Powerpoint Slide 89 - 90
+from typing import List, TypeVar
 
+T = TypeVar('T', int, float)
+
+# code from Module 6 Sorting Powerpoint Slide 89 - 90
 def merge(item, left, mid, right):
     n1 = mid - left + 1
     n2 = right - mid 
@@ -56,8 +59,8 @@ def merge_sort(item, left, right):
         merge(item, left, mid, right)
 
 # based on my haskell implementation
-def functional_merge_sort(items):
-    def merge(left, right):
+def functional_merge_sort(items: List[T]) -> List[T]:
+    def merge(left: List[T], right: List[T]) -> List[T]:
         if len(left) == 0:
             return right
         if len(right) == 0:
@@ -75,4 +78,4 @@ def functional_merge_sort(items):
         left = items[mid:]
         right = items[:mid]
 
-        return merge(merge_sort(left), merge_sort(right))
+        return merge(functional_merge_sort(left), functional_merge_sort(right))
