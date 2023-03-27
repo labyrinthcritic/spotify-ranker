@@ -1,6 +1,12 @@
 import random
 
 from shell_sort import shell_sort
+from merge_sort import merge_sort
+
+def run_all_tests():
+    tests = [test_shell_sort_one, test_shell_sort_two, test_merge_sort]
+    for test in tests:
+        test()
 
 def test_shell_sort_one():
     list = [12, 34, 54, 2, 3]
@@ -31,3 +37,17 @@ def test_shell_sort_two():
     print("\nArray after sorting: ")
     for i in range(n):
         print(randomList[i])
+
+def test_merge_sort():
+    item = [15, 2, 7, 0]
+    
+    size = len(item)
+    print("Array before sorting: ")
+    for i in range(size):
+        print(item[i]),
+    
+    merge_sort(item, 0, size - 1)
+    
+    print("\nArray after sorting: ")
+    for i in range(size):
+        print(item[i])

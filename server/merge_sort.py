@@ -1,6 +1,6 @@
 # code from Module 6 Sorting Powerpoint Slide 89 - 90
 
-def Merge(item, left, mid, right):
+def merge(item, left, mid, right):
     n1 = mid - left + 1
     n2 = right - mid 
     itemOne = [0] * n1
@@ -45,15 +45,38 @@ def Merge(item, left, mid, right):
     
 
 
-def MergeSort(item, left, right):
+def merge_sort(item, left, right):
     if (left < right):
         # diving the item (// to return whole number)
         mid = left + (right - left) // 2
-        MergeSort(item, left, mid)
-        MergeSort(item, mid + 1, right)
+        merge_sort(item, left, mid)
+        merge_sort(item, mid + 1, right)
 
         # merging back the lsit 
-        Merge(item, left, mid, right)
+        merge(item, left, mid, right)
+
+# based on my haskell implementation
+def functional_merge_sort(items):
+    def merge(left, right):
+        if len(left) == 0:
+            return right
+        if len(right) == 0:
+            return left
+
+        if left[0] < right[0]:
+            return left[:1] + merge(left[1:], right)
+        else:
+            return right[:1] + merge(left, right[1:])
+    
+    if len(items) == 1:
+        return items
+    else:
+        mid = int(len(items) / 2)
+        left = items[mid:]
+        right = items[:mid]
+
+        return merge(merge_sort(left), merge_sort(right))
+
 
 
 """
@@ -65,7 +88,7 @@ print ("Array before sorting: ")
 for i in range(size):
     print(item[i]),
 
-MergeSort(item, 0, size - 1)
+merge_sort(item, 0, size - 1)
 
 print ("\nArray after sorting: ")
 for i in range(size):
