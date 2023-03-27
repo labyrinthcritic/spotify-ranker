@@ -1,53 +1,31 @@
-import random
+from random import randint
 
 from shell_sort import shell_sort
 from merge_sort import merge_sort
 
 def run_all_tests() -> None:
-    tests = [test_shell_sort_one, test_shell_sort_two, test_merge_sort]
+    tests = [test_shell_sort, test_merge_sort]
     for test in tests:
         test()
 
-def test_shell_sort_one() -> None:
-    list = [12, 34, 54, 2, 3]
+def test_shell_sort() -> None:
+    print('Testing shell sort.')
     
-    size = len(list)
-    print("Array before sorting: ")
-    for i in range(size):
-        print(list[i]), 
+    items = [randint(1, 30) for _ in range(30)]
     
-    shell_sort(list)
+    print(f'Before: {items}')    
     
-    print("\nArray after sorting: ")
-    for i in range(size):
-        print(list[i]),
+    shell_sort(items)
 
-def test_shell_sort_two() -> None:
-    randomList = []
-    n = 100 
-    for i in range(n): 
-        randomList.append(random.randint(0,100))
-    
-    print("Array before sorting: ")
-    for i in range(n):
-        print(randomList[i]),
-    
-    shell_sort(randomList)
-    
-    print("\nArray after sorting: ")
-    for i in range(n):
-        print(randomList[i])
+    print(f' After: {items}')
 
 def test_merge_sort() -> None:
-    item = [15, 2, 7, 0]
+    print('Testing merge sort.')
     
-    size = len(item)
-    print("Array before sorting: ")
-    for i in range(size):
-        print(item[i]),
+    items = [randint(1, 30) for _ in range(30)]
     
-    merge_sort(item, 0, size - 1)
+    print(f'Before: {items}')    
     
-    print("\nArray after sorting: ")
-    for i in range(size):
-        print(item[i])
+    merge_sort(items, 0, len(items) - 1)
+
+    print(f' After: {items}')
