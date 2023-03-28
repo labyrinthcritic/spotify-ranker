@@ -1,0 +1,6 @@
+input::-webkit-slider-thumb, input::-moz-range-thumb {
+  height: 100%;
+  background-color: #1DB954;
+  border: none;
+  border-radius: 0;
+}
