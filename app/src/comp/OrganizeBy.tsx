@@ -8,7 +8,7 @@ type OrganizeSettings = {
   
 }
 
-function OrganizeBy(props: Props) {
+export default function OrganizeBy(props: Props) {
   const [selectedFeature, setSelectedFeature] = useState<string>();
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>();
 
@@ -65,5 +65,3 @@ function OrganizeBy(props: Props) {
     </div>
   )
 }
-
-export default OrganizeBy

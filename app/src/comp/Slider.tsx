@@ -6,7 +6,7 @@ type Props = {
   count: number,
 }
 
-function Slider(props: Props) {
+export default function Slider(props: Props) {
   const [value, setValue] = useState<number>(0);
 
   const barWidth = Math.floor(100 / props.count).toString() + '%'
@@ -31,5 +31,3 @@ function Slider(props: Props) {
     </div>
   )
 }
-
-export default Slider

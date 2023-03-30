@@ -8,7 +8,7 @@ import Slider from './comp/Slider'
 
 import './App.css'
 
-function App() {
+export default function App() {
   const [artistInput, setArtistInput] = useState<string>()
 
   const onArtistFind = () => {
@@ -46,5 +46,3 @@ function App() {
     </div>
   )
 }
-
-export default App

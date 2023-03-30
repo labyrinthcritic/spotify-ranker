@@ -2,7 +2,7 @@ type Props = {
   items: Array<number>
 }
 
-function Chart(props: Props) {
+export default function Chart(props: Props) {
   const items = props.items;
 
   const itemsMax = Math.max(...items);
@@ -17,5 +17,3 @@ function Chart(props: Props) {
     </div>
   )
 }
-
-export default Chart
