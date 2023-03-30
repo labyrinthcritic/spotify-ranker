@@ -40,8 +40,8 @@ export default function App() {
         </div>
 
         <OrganizeBy organizeSettings={{}}/>
-        <Chart items={Array.from({length: 5}, () => Math.random() * 8)}/>
-        <Slider count={5}/>
+        <Chart items={Array.from({length: 75}, () => Math.random() * 8)}/>
+        <Slider count={75}/>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"
 
 type Props = {
   organizeSettings: OrganizeSettings,
@@ -9,8 +9,8 @@ type OrganizeSettings = {
 }
 
 export default function OrganizeBy(props: Props) {
-  const [selectedFeature, setSelectedFeature] = useState<string>();
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>();
+  const [selectedFeature, setSelectedFeature] = useState<string>()
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>()
 
   const onGo = () => {
     

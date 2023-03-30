@@ -7,9 +7,9 @@ type Props = {
 }
 
 export default function Slider(props: Props) {
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(0)
 
-  const barWidth = Math.floor(100 / props.count).toString() + '%'
+  const barWidth = (100 / props.count).toString() + '%'
   
   return (
     <div className="w-full px-8">
