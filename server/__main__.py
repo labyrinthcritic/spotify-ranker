@@ -14,6 +14,9 @@ def main() -> None:
     client_id = environ.get('CLIENT_ID')
     client_secret = environ.get('CLIENT_SECRET')
 
+    assert not client_id is None
+    assert not client_secret is None
+
     spotify_client = client.get_spotify_client(client_id, client_secret)
     assert not spotify_client is None
 
@@ -23,7 +26,7 @@ def main() -> None:
     app.run()
 
 @app.route('/artist_top_tracks/<name>')
-def artist_top_tracks(name: str) -> Dict[str, str]:
+def artist_top_tracks(name: str) -> flask.Response:
     spotify_client: Any = flask_cache.get('spotify_client')
 
     result = spotify_client.artist_top_tracks(name)
@@ -41,5 +44,5 @@ if __name__ == '__main__':
     main()
 
 @app.route('/all_tracks_by/<name>')
-def all_tracks_by(name: str) -> Dict[str, str]:
-    return {}
+def all_tracks_by(name: str) -> flask.Response:
+    return flask.jsonify({ 'error': 'unimplemented' })
