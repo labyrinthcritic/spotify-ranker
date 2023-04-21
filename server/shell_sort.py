@@ -1,8 +1,9 @@
-from typing import List, TypeVar
+from typing import Callable, List, TypeVar
 
 T = TypeVar('T', int, float)
 
-def shell_sort(items: List[T]):
+# Modifies the list in-place.
+def shell_sort(items: List[T], cmp: Callable[[T, T], bool]):
     # initial value of the gap n / 2 
     size = len(items)
     gap = int(size / 2)
@@ -19,7 +20,7 @@ def shell_sort(items: List[T]):
                 fastNum = i + gap
 
                 # check to see if swap is required 
-                if items[slowNum] > items[fastNum]:
+                if cmp(items[fastNum], items[slowNum]):
                     temp = items[slowNum]
                     items[slowNum] = items[fastNum]
                     items[fastNum] = temp 
@@ -29,14 +30,14 @@ def shell_sort(items: List[T]):
                     fastNum = fastNum - gap  
 
                     while (slowNum >= 0 and fastNum <= size): 
-                       # swap required 
-                       if items[slowNum] > items[fastNum]:
+                        # swap required 
+                        if cmp(items[fastNum], items[slowNum]):
                             items[slowNum], items[fastNum] = items[fastNum], items[slowNum]
 
                             slowNum = slowNum - gap 
                             fastNum = fastNum - gap  
-                       else:
-                           break
+                        else:
+                            break
         # after iterating through the array with the gap 
         # increment the gap --> incrementation from shell sort pseudocode slide 74
         if gap == 2:

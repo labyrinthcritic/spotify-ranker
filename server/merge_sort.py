@@ -1,9 +1,9 @@
-from typing import List, TypeVar
+from typing import Callable, List, TypeVar
 
 T = TypeVar('T', int, float)
 
 # code from Module 6 Sorting Powerpoint Slide 89 - 90
-def merge(item, left, mid, right):
+def merge(item, left, mid, right, cmp):
     n1 = mid - left + 1
     n2 = right - mid 
     itemOne = [0] * n1
@@ -23,7 +23,7 @@ def merge(item, left, mid, right):
 
     # check to see if we reached the end of the arrays 
     while i < n1 and j < n2:
-        if (itemOne[i] <= itemTwo[j]):
+        if cmp(itemOne[i], itemTwo[j]):
             item[k] = itemOne[i]
             i = i + 1
 
@@ -46,27 +46,26 @@ def merge(item, left, mid, right):
         j = j + 1
         k = k + 1
     
-
-
-def merge_sort(item, left, right):
+def merge_sort(item, left, right, cmp):
     if (left < right):
         # diving the item (// to return whole number)
         mid = left + (right - left) // 2
-        merge_sort(item, left, mid)
-        merge_sort(item, mid + 1, right)
+        merge_sort(item, left, mid, cmp)
+        merge_sort(item, mid + 1, right, cmp)
 
         # merging back the lsit 
-        merge(item, left, mid, right)
+        merge(item, left, mid, right, cmp)
 
 # based on my haskell implementation
-def functional_merge_sort(items: List[T]) -> List[T]:
+# cmp: returns `True` if the first parameter is less than the second parameter
+def functional_merge_sort(items: List[T], cmp: Callable[[T, T], bool]) -> List[T]:
     def merge(left: List[T], right: List[T]) -> List[T]:
         if len(left) == 0:
             return right
         if len(right) == 0:
             return left
 
-        if left[0] < right[0]:
+        if cmp(left[0], right[0]):
             return left[:1] + merge(left[1:], right)
         else:
             return right[:1] + merge(left, right[1:])
@@ -78,4 +77,4 @@ def functional_merge_sort(items: List[T]) -> List[T]:
         left = items[mid:]
         right = items[:mid]
 
-        return merge(functional_merge_sort(left), functional_merge_sort(right))
+        return merge(functional_merge_sort(left, cmp), functional_merge_sort(right, cmp))
