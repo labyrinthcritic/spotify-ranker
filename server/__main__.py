@@ -113,7 +113,7 @@ def get_cmp(feature: str) -> Optional[Callable[[Track, Track], bool]]:
     features = {
         'acousticness': lambda l, r: l.features.acousticness < r.features.acousticness,
         'danceability': lambda l, r: l.features.danceability < r.features.danceability,
-        'duration': lambda l, r: l.features.duration_ms < r.features.duration_ms,
+        'duration_ms': lambda l, r: l.features.duration_ms < r.features.duration_ms,
         'energy': lambda l, r: l.features.energy < r.features.energy,
         'instrumentalness': lambda l, r: l.features.instrumentalness < r.features.instrumentalness,
         'liveness': lambda l, r: l.features.liveness < r.features.liveness,
