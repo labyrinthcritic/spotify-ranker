@@ -18,6 +18,7 @@ class ResponseCache:
     
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 spotify_client: Optional[SpotifyClient] = None
 response_cache: ResponseCache = ResponseCache({})
