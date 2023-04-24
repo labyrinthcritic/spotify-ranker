@@ -1,23 +1,24 @@
 from dataclasses import dataclass
 import flask
-import flask_caching
 import json
 from os import environ
 import time
 from typing import Any, Callable, Dict, List, Optional
 
 import client
-from client import AudioFeatures, Track
+from client import AudioFeatures, SpotifyClient, Track
 from merge_sort import merge_sort, functional_merge_sort
 from shell_sort import shell_sort
-
-app = flask.Flask(__name__)
-flask_cache = flask_caching.Cache()
 
 @dataclass
 class ResponseCache:
     # a map from artist id to tracks received from api
     tracks: Dict[str, List[Track]]
+    
+app = flask.Flask(__name__)
+
+spotify_client: Optional[SpotifyClient] = None
+response_cache: ResponseCache = ResponseCache({})
 
 def main() -> None:
     client_id = environ.get('CLIENT_ID')
@@ -28,12 +29,9 @@ def main() -> None:
     assert not client_secret is None
     assert not port is None
 
+    global spotify_client
     spotify_client = client.get_spotify_client(client_id, client_secret)
     assert not spotify_client is None
-
-    flask_cache.init_app(app, { 'CACHE_TYPE': 'SimpleCache' })
-    flask_cache.set('spotify_client', spotify_client)
-    flask_cache.set('response_cache', ResponseCache({}))
 
     print('starting server...')
     app.run(host='0.0.0.0', port=int(port))
@@ -50,10 +48,10 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
     if not algorithm in ['shell', 'imperative_merge', 'functional_merge']:
         return flask.jsonify({ 'error': 'invalid_algorithm' })
     
-    cl: Any = flask_cache.get('spotify_client')
-    response_cache: Any = flask_cache.get('response_cache')
-
-    artist_id: Optional[str] = cl.artist_id(name)
+    # spotify client will never be none if it is initialized in main
+    assert not spotify_client is None
+    
+    artist_id: Optional[str] = spotify_client.artist_id(name)
 
     if artist_id is None:
         return flask.jsonify({ 'error': 'artist_not_found' })
@@ -65,12 +63,12 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
     else:
         print(f'artist id was not found in cache. requesting tracks from api.')
 
-        artist_albums = cl.artist_albums(artist_id)
+        artist_albums = spotify_client.artist_albums(artist_id)
 
         if not artist_albums is None:
             track_ids: List[str] = []
             for album in artist_albums:
-                album_tracks = cl.album_tracks(album)
+                album_tracks = spotify_client.album_tracks(album)
                 if not album_tracks is None:
                     track_ids += album_tracks
                 else:
@@ -80,7 +78,7 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
                         'message': 'album tracks api returned nothing',
                     })
             # handle if api call failed
-            audio_features_response = cl.tracks_audio_features(track_ids)
+            audio_features_response = spotify_client.tracks_audio_features(track_ids)
             if audio_features_response is None:
                 return flask.jsonify({
                     'error': 'api_fail',
@@ -91,7 +89,6 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
 
     # add tracks to cache
     response_cache.tracks.update({artist_id: tracks})
-    flask_cache.set('response_cache', response_cache)
 
     # sort the tracks list
     if algorithm == 'shell':
