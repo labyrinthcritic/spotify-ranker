@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import flask
+import flask_cors
 import json
 from os import environ
 import time
@@ -16,6 +17,7 @@ class ResponseCache:
     tracks: Dict[str, List[Track]]
     
 app = flask.Flask(__name__)
+flask_cors.CORS(app)
 
 spotify_client: Optional[SpotifyClient] = None
 response_cache: ResponseCache = ResponseCache({})
