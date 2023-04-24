@@ -75,6 +75,10 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
     
     return flask.jsonify({})
 
+@app.route('/ok')
+def ok() -> flask.Response:
+    return flask.jsonify({})
+
 # Get the comparison function for a certain audio feature.
 # If the feature is not valid, this returns `None`.
 def get_cmp(feature: str) -> Optional[Callable[[Track, Track], bool]]:
