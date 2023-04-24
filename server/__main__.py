@@ -35,8 +35,8 @@ def main() -> None:
     flask_cache.set('spotify_client', spotify_client)
     flask_cache.set('response_cache', ResponseCache({}))
 
-    print('starting waitress wsgi server...')
-    app.run(host='0.0.0.0', port=port)
+    print('starting server...')
+    app.run(host='0.0.0.0', port=int(port))
 
 @app.route('/all_tracks_by/<name>/<feature>/<algorithm>')
 def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
@@ -52,9 +52,6 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
     
     cl: Any = flask_cache.get('spotify_client')
     response_cache: Any = flask_cache.get('response_cache')
-
-    assert type(cl) is client.SpotifyClient
-    assert type(response_cache) is ResponseCache
 
     artist_id: Optional[str] = cl.artist_id(name)
 
@@ -91,8 +88,6 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
                 })
             else:
                 tracks = audio_features_response
-
-    assert not tracks is None
 
     # add tracks to cache
     response_cache.tracks.update({artist_id: tracks})
