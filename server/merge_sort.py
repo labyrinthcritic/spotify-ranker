@@ -1,6 +1,6 @@
 from typing import Callable, List, TypeVar
 
-T = TypeVar('T', int, float)
+T = TypeVar('T')
 
 # code from Module 6 Sorting Powerpoint Slide 89 - 90
 def merge(item, left, mid, right, cmp):

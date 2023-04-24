@@ -1,6 +1,6 @@
 from typing import Callable, List, TypeVar
 
-T = TypeVar('T', int, float)
+T = TypeVar('T')
 
 # Modifies the list in-place.
 def shell_sort(items: List[T], cmp: Callable[[T, T], bool]):

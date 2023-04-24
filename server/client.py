@@ -84,7 +84,6 @@ class SpotifyClient:
         else:
             return None
 
-    # @cache
     def tracks_audio_features(self, track_ids: List[str]) -> Optional[List[Track]]:
         total_tracks = []
 
