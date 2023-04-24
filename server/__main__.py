@@ -17,9 +17,11 @@ flask_cache = flask_caching.Cache()
 def main() -> None:
     client_id = environ.get('CLIENT_ID')
     client_secret = environ.get('CLIENT_SECRET')
-
+    port = environ.get('PORT')
+    
     assert not client_id is None
     assert not client_secret is None
+    assert not port is None
 
     spotify_client = client.get_spotify_client(client_id, client_secret)
     assert not spotify_client is None
@@ -28,7 +30,7 @@ def main() -> None:
     flask_cache.set('spotify_client', spotify_client)
 
     print('starting waitress wsgi server...')
-    waitress.serve(app, host='0.0.0.0', port=8080)
+    waitress.serve(app, host='0.0.0.0', port=port)
 
 @app.route('/all_tracks_by/<name>/<feature>/<algorithm>')
 def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
