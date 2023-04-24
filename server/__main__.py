@@ -5,7 +5,6 @@ import json
 from os import environ
 import time
 from typing import Any, Callable, Dict, List, Optional
-import waitress
 
 import client
 from client import AudioFeatures, Track
@@ -37,7 +36,7 @@ def main() -> None:
     flask_cache.set('response_cache', ResponseCache({}))
 
     print('starting waitress wsgi server...')
-    waitress.serve(app, host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)
 
 @app.route('/all_tracks_by/<name>/<feature>/<algorithm>')
 def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
