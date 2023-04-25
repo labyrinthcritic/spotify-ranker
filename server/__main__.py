@@ -33,8 +33,7 @@ def main() -> None:
     assert not port is None
 
     global spotify_client
-    spotify_client = client.get_spotify_client(client_id, client_secret)
-    assert not spotify_client is None
+    spotify_client = SpotifyClient(client_id, client_secret)
 
     print('starting server...')
     app.run(host='0.0.0.0', port=int(port))

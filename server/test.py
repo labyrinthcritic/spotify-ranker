@@ -1,3 +1,5 @@
+# type: ignore
+
 from random import randint
 
 from shell_sort import shell_sort
