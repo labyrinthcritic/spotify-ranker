@@ -7,7 +7,7 @@ import time
 from typing import Any, Callable, Dict, List, Optional
 
 import client
-from client import AudioFeatures, SpotifyClient, Track
+from client import AlbumTrack, AudioFeatures, SpotifyClient, Track
 from merge_sort import merge_sort, functional_merge_sort
 from shell_sort import shell_sort
 
@@ -68,7 +68,7 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
         artist_albums = spotify_client.artist_albums(artist_id)
 
         if not artist_albums is None:
-            track_ids: List[str] = []
+            track_ids: List[AlbumTrack] = []
             for album in artist_albums:
                 album_tracks = spotify_client.album_tracks(album)
                 if not album_tracks is None:

@@ -24,7 +24,14 @@ class AudioFeatures:
 @dataclass
 class Track:
     id: str
+    name: str
     features: AudioFeatures
+
+# Part of the response from `SpotifyClient::get_album_tracks`.
+@dataclass
+class AlbumTrack:
+    id: str
+    name: str
 
 class SpotifyClient:
     client_id: str
@@ -104,7 +111,7 @@ class SpotifyClient:
 
     # Get the IDs of all tracks on an album from its album ID.
     @cache
-    def album_tracks(self, album_id: str) -> Optional[List[str]]:
+    def album_tracks(self, album_id: str) -> Optional[List[AlbumTrack]]:
         self.check_reauthorization()
         
         response = requests.get(
@@ -118,17 +125,17 @@ class SpotifyClient:
 
         if response.ok:
             res_obj = response.json()
-            return [track['id'] for track in res_obj['items']]
+            return [AlbumTrack(track['id'], track['name']) for track in res_obj['items']]
         else:
             return None
 
-    def tracks_audio_features(self, track_ids: List[str]) -> Optional[List[Track]]:
+    def tracks_audio_features(self, input_tracks: List[AlbumTrack]) -> Optional[List[Track]]:
         self.check_reauthorization()
         
         total_tracks = []
 
-        for group in chunks(track_ids, 100):
-            group_str = ','.join(group)
+        for group in chunks(input_tracks, 100):
+            group_str = ','.join([track.id for track in group])
             response = requests.get(
                 f'{API_URL}/audio-features',
                 headers={ 'Authorization': f'Bearer {self.access_token}', 'Content-Type': 'application/json' },
@@ -139,20 +146,20 @@ class SpotifyClient:
 
             if response.ok:
                 res_obj = response.json()
-                tracks = res_obj['audio_features']
+                features = res_obj['audio_features']
                 
-                total_tracks += [Track(track['id'], AudioFeatures(
-                    track['acousticness'],
-                    track['danceability'],
-                    track['duration_ms'],
-                    track['energy'],
-                    track['instrumentalness'],
-                    track['liveness'],
-                    track['loudness'],
-                    track['speechiness'],
-                    track['tempo'],
-                    track['valence'],
-                )) for track in tracks]
+                total_tracks += [Track(track.id, track.name, AudioFeatures(
+                    features['acousticness'],
+                    features['danceability'],
+                    features['duration_ms'],
+                    features['energy'],
+                    features['instrumentalness'],
+                    features['liveness'],
+                    features['loudness'],
+                    features['speechiness'],
+                    features['tempo'],
+                    features['valence'],
+                )) for (track, features) in zip(group, features)]
             else:
                 print(f'tracks_audio_features request failed: {response.status_code}')
 
