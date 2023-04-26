@@ -15,6 +15,11 @@ from shell_sort import shell_sort
 class ResponseCache:
     # a map from artist id to tracks received from api
     tracks: Dict[str, List[Track]]
+
+@dataclass
+class Results:
+    time_to_sort: float
+    tracks: List[Track]
     
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
@@ -93,14 +98,18 @@ def all_tracks_by(name: str, feature: str, algorithm: str) -> flask.Response:
     response_cache.tracks.update({artist_id: tracks})
 
     # sort the tracks list
+    sort_start_time = time.time()
     if algorithm == 'shell':
         shell_sort(tracks, cmp)
     elif algorithm == 'imperative_merge':
         merge_sort(tracks, 0, len(tracks) - 1, cmp)
     elif algorithm == 'functional_merge':
         tracks = functional_merge_sort(tracks, cmp)
+    sort_end_time = time.time()
+
+    results = Results(sort_end_time - sort_start_time, tracks)
     
-    return flask.jsonify(tracks)
+    return flask.jsonify(results)
     
 @app.route('/ok')
 def ok() -> flask.Response:
