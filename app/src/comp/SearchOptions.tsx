@@ -4,41 +4,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 
 type Props = {
-  organizeSettings: OrganizeSettings,
+  onGo: (artistName: string, feature: string, algorithm: string) => void,
 }
 
-type OrganizeSettings = {
-  
-}
+export const audioFeatures: Array<[string, string]> = [
+  ['acousticness', 'Acousticness'],
+  ['danceability', 'Danceability'],
+  ['duration_ms', 'Duration'],
+  ['energy', 'Energy'],
+  ['instrumentalness', 'Instrumentalness'],
+  ['liveness', 'Liveness'],
+  ['loudness', 'Loudness'],
+  ['speechiness', 'Speechiness'],
+  ['tempo', 'Tempo'],
+  ['valence', 'Valence'],
+]
+
+const sortingAlgorithms = [
+  ['imperative_merge', 'Merge sort'],
+  ['functional_merge', 'Merge sort (functional)'],
+  ['shell', 'Shell sort'],
+]
 
 export default function OrganizeBy(props: Props) {
-  const [artistInput, setArtistInput] = useState<string>()
-  const [selectedFeature, setSelectedFeature] = useState<string>()
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>()
+  const [artistInput, setArtistInput] = useState<string>('')
+  const [selectedFeature, setSelectedFeature] = useState<string>(audioFeatures[0][0])
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>(sortingAlgorithms[0][0])
 
   const onGo = () => {
-    
+    props.onGo(artistInput, selectedFeature, selectedAlgorithm)
   }
 
-  const audioFeatures: Array<[string, string]> = [
-    ['acousticness', 'Acousticness'],
-    ['danceability', 'Danceability'],
-    ['duration', 'Duration'],
-    ['energy', 'Energy'],
-    ['instrumentalness', 'Instrumentalness'],
-    ['liveness', 'Liveness'],
-    ['loudness', 'Loudness'],
-    ['speechiness', 'Speechiness'],
-    ['tempo', 'Tempo'],
-    ['valence', 'Valence'],
-  ]
-
-  const sortingAlgorithms = [
-    ['imperative_merge', 'Merge sort'],
-    ['functional_merge', 'Merge sort (functional)'],
-    ['shell', 'Shell sort'],
-  ]
-  
   return (
     <div className="flex flex-col items-center space-y-2">
       <div className="flex flex-row items-center space-x-2">

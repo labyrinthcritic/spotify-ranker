@@ -4,6 +4,7 @@ import './Slider.css'
 
 type Props = {
   count: number,
+  onUpdate: (selected: number) => void,
 }
 
 export default function Slider(props: Props) {
@@ -16,7 +17,11 @@ export default function Slider(props: Props) {
       <input
         type="range"
         value={value}
-        onChange={ e => setValue(parseInt(e.target.value)) }
+        onChange={ e => {
+          let val = parseInt(e.target.value)
+          setValue(val)
+          props.onUpdate(val)
+        }}
         min="0"
         max={props.count - 1}
         className="w-full bg-spotify-gray drop-shadow-md"
@@ -24,7 +29,7 @@ export default function Slider(props: Props) {
       <style dangerouslySetInnerHTML={{ __html: [
         // html does not allow inline styling of pseudo-elements -- avoid modifying
         'input::-webkit-slider-thumb, input::-moz-range-thumb {',
-        '    width: ' + barWidth + ';',
+        '    width: max(' + barWidth + ', 10px);',
         '}'
         ].join('\n')
       }}/>
