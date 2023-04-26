@@ -47,7 +47,7 @@ class SpotifyClient:
 
         self.reauthorize()
 
-    def reauthorize(self):
+    def reauthorize(self) -> None:
         response = requests.post(
             'https://accounts.spotify.com/api/token',
             headers={
@@ -64,11 +64,11 @@ class SpotifyClient:
             self.access_token = obj['access_token']
             self.token_expiration = obj['expires_in']
         else:
-            raise 'reauthorizaton failed'
+            raise Exception('reauthorizaton failed')
 
-    def check_reauthorization(self):
+    def check_reauthorization(self) -> None:
         if time.time() - self.last_authorized_time > self.token_expiration:
-            reauthorize()
+            self.reauthorize()
 
     # Get an artist's ID by searching their name.
     @cache
