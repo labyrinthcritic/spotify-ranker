@@ -1,6 +1,6 @@
 # code from Module 6 Sorting Powerpoint Slide 20 - 21
 
-def Partition(item, low, high):
+def partition(item, low, high):
     parPivot = item[low]
     up = low
     down = high
@@ -13,10 +13,10 @@ def Partition(item, low, high):
             up  = up + 1
 
         j = high 
-        for j in range (low, 0, -1):
+        for j in range(low, 0, -1):
             if (item[down] < parPivot):
                 break
-            down = down - 1
+            down -= 1
         
         if (up < down):
             item[up], item[down] = item[down], item[up]
@@ -26,29 +26,8 @@ def Partition(item, low, high):
         return down
     
 
-def QuickSort(item, low, high):
-    
+def quick_sort(item, low, high):
     if (low < high):
-        pivot = Partition(item, low, high)
-        QuickSort(item, low, pivot - 1)
-        QuickSort(item, pivot + 1, high)
-
-
-
-"""
-# Test Code 
-
-data = [15, 0, 5, 6]
-size = len(data)
-
-print ("Array before sorting: ")
-for i in range (size):
-    print(data[i]),
-
-QuickSort(data, 0, size - 1)
-
-print ("Array after sorting: ")
-for i in range (size):
-    print (data[i])
-
-"""
+        pivot = partition(item, low, high)
+        quick_sort(item, low, pivot - 1)
+        quick_sort(item, pivot + 1, high)
