@@ -1,5 +1,7 @@
 # Spotify Ranker
 
+[Spotify Ranker](https://medricet.github.io/spotify-ranker/) sorts tracks from the spotify API by an audio feature.
+
 ## Development
 
 To run the dev server:
